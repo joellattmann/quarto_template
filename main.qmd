@@ -1,0 +1,931 @@
+---
+title: |
+  Paper Title Goes Here
+subtitle: |
+  Seminar paper\textsuperscript{*}
+author: 
+  name: First Author\textsuperscript{†} & Second Author\textsuperscript{‡}
+
+lang: en
+date: today
+date-format: "D MMMM YYYY"
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+  include: false
+
+toc: false
+toc-depth: 3
+number-sections: false
+format:
+  pdf:
+    documentclass: article
+    latex-engine: xelatex
+    include-in-header: preamble.tex
+    colorlinks: false
+    link-citations: true
+    mainfont: "CMU Serif"
+    fontsize: 11pt
+    fig-cap-location: bottom
+    tbl-cap-location: bottom
+    papersize: a4
+    geometry: 
+      - top=3cm
+      - bottom=3cm
+      - left=2.5cm
+      - right=2.5cm
+
+bibliography: references_template.bib
+csl: apa.csl
+
+header-includes:
+    - \usepackage{pdflscape}
+    - \newcommand{\blandscape}{\begin{landscape}}
+    - \newcommand{\elandscape}{\end{landscape}}
+    - \usepackage{etoolbox}
+    - \pretocmd{\tableofcontents}{\newpage}{}{}
+    - \usepackage{setspace}
+    - \onehalfspacing
+    - \usepackage{placeins}
+    - \usepackage{float}
+    - \floatplacement{table}{H}
+    - \setlength{\parindent}{1.5em}
+---
+<!-- The following chunks load packages and data. -->
+```{r}
+#| label: setup
+
+library(tidyverse); library(MASS); library(kableExtra); library(lubridate); library(texreg); library(vtable); library(marginaleffects); library(ggpubr); library(grid)
+```
+
+```{r}
+#| label: loading data
+
+bluesky <- readr::read_csv("data/bluesky_classified.csv")
+```
+
+```{r}
+#| label: recoding
+
+bluesky1 <- bluesky |>
+  mutate(
+    stance = ifelse(final_label == 1, "Pro", "Non-pro"),
+    day = as.Date(timestamp),
+    weekday = factor(wday(day, label = TRUE))
+  ) |>
+  group_by(day, stance, weekday) |>
+  summarise(
+    n_daydate = n(),
+    m_engagement = mean(reply_count + like_count + repost_count, na.rm = TRUE),
+    total_posts = n_distinct(post_id),
+    active_users = n_distinct(user_handle),
+    .groups = "drop"
+  )
+
+bluesky2 <- bluesky1 |>
+  mutate(
+    time = as.integer(day - min(day)) + 1,
+    ceasefire = ifelse(day >= as.Date("2025-09-29"), 1, 0),
+    time_after = ifelse(
+      day >= as.Date("2025-09-29"),
+      as.integer(day - as.Date("2025-09-29")) + 1,
+      0
+    )
+  )
+```
+
+\vspace*{1cm}
+
+\begin{center}
+\textbf{Abstract}
+\end{center}
+
+\begin{adjustwidth}{2cm}{2cm}
+Everyone agrees that this issue is really important. But we do not know much about this specific question, although it matters a great deal, for these reasons. We approach the problem from this perspective. Our research design focuses on these cases and relies on these data, which we analyze using this method. Results show what we have learned about the question. They have these broader implications.
+\end{adjustwidth}
+
+\begingroup
+\renewcommand{\thefootnote}{}
+\setcounter{footnote}{0}
+
+\footnotetext{\textsuperscript{*} This paper was submitted for the BA Seminar "XYZ" taught by XYZ. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+
+\footnotetext{\textsuperscript{†} Department of Political Science, University of Zurich, Switzerland. Matriculation Number: XX-XXX-XXX. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+
+\footnotetext{\textsuperscript{‡} Department of Political Science, University of Zurich, Switzerland. Matriculation Number: XX-XXX-XXX. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+\endgroup
+
+\thispagestyle{empty}
+
+\clearpage
+
+\setcounter{tocdepth}{3}
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+
+\clearpage
+
+\listoftables
+\listoffigures
+
+\clearpage
+# Introduction
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.  
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
+
+\clearpage
+# Theory and Main Argument
+
+@johnBoycottPuzzleConsumer2003a ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum [@friedmanConsumerBoycottsConceptual1991a]. 
+
+Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet [@greijdanusPsychologyOnlineActivism2020; @theocharisConceptualizationDigitallyNetworked2015]. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. @quelleBlueskyNetworkTopology2025a vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet [@michelettiPoliticalVirtueShopping2003a]. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet [@kleinWhyWeBoycott2004a].  
+
+\begin{adjustwidth}{1cm}{1cm}
+H1: Write your H1 here.
+\end{adjustwidth}
+
+\begin{adjustwidth}{1cm}{1cm}
+H2: Write your H2 here.
+\end{adjustwidth}
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi [@braunsbergerWhatMotivatesConsumers2011a]. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat [@palacios-florencioExplainingBoycottBehavior2021a].  
+
+\vspace*{.5cm}
+
+![Visualisation of the Theoretical Argument](images/dag.pdf){#fig-dag width=12cm}
+
+\clearpage
+# Research Design
+
+## Data
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer [\ref{note:data}].
+
+## Classification
+
+At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet [\ref{note:classifier}]. 
+
+## Operationalisation and Modelling
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+$$
+\log(\mu_t) = \beta_0
++ \beta_1 \,\mathrm{Time}_t
++ \beta_2 \,\mathrm{Ceasefire}_t
++ \beta_3 \,\mathrm{TimeAfter}_t,
+\qquad
+\mathrm{NumberOfPosts}_t \sim \mathrm{NegBin}(\mu_t,\theta)
+$$
+
+where $\text{NumberOfPosts}_t$ denotes the number of posts on day $t$ by stance, 
+$\text{Time}_t$ captures the baseline time trend, 
+$\text{Ceasefire}_t$ is a binary indicator for the ceasefire announcement period, 
+and $\text{TimeAfter}_t$ measures the post-ceasefire time trend.
+
+\clearpage
+# Results
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: fig-timeline
+#| fig-cap: "Boycott Posts over Time"
+#| include: true
+
+ceasefire <- as.Date("2025-09-29")
+
+ggplot(
+  bluesky2,
+  aes(x = day, y = n_daydate, color = stance)
+) +
+  geom_line(linewidth = 0.5) +
+  scale_color_manual(
+    values = c(
+      "Pro"     = "navy",
+      "Non-pro" = "blue"
+    )
+  ) +
+  geom_vline(
+    xintercept = ceasefire,
+    linetype = "dashed",
+    color = "black",
+    linewidth = 0.6
+  ) +
+  annotate(
+    "text",
+    x = ceasefire,
+    y = max(bluesky2$n_daydate) * 0.65,
+    label = "Ceasefire\n(Sep 29)",
+    color = "Black",
+    angle = 0,
+    vjust = -0.7,
+    hjust = -.2,
+    size = 3
+  ) +
+  labs(
+    title = "Pro vs. Non-pro Posts per Day on Bluesky",
+    x = "Day",
+    y = "Number of posts",
+    color = "Stance"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    title = element_text(size = 10),
+    panel.grid.major = element_line(
+      linetype = "dashed",
+      color = "gray80",
+      linewidth = .2
+    ),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 8),
+    axis.text.y = element_text(size = 8),
+    axis.title.x = element_text(size = 10, margin = margin(t = 15)),
+    axis.title.y = element_text(size = 10, margin = margin(r = 15)),
+    legend.title = element_text(size = 10),
+    legend.position = "bottom"
+  )
+```
+
+```{r}
+# Models NB and OLS
+## NB
+npostspro_nb1 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after,
+                        data = subset(bluesky2, stance == "Pro"))
+
+npostspro_nb2 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday,
+                        data = subset(bluesky2, stance == "Pro"))
+
+npostspro_nb3 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday + # total_posts removed because of collinearity,
+                          active_users,
+                        data = subset(bluesky2, stance == "Pro"))
+
+## OLS
+engpro_ols4 <- glm(log(m_engagement + 1) ~ 
+                       time + 
+                       ceasefire + 
+                       time_after,
+                     data = subset(bluesky2, stance == "Pro"),
+                  family = "gaussian")
+
+engpro_ols5 <- glm(log(m_engagement + 1) ~ 
+                       time + 
+                       ceasefire + 
+                       time_after +
+                       weekday,
+                     data = subset(bluesky2, stance == "Pro"),
+                  family = "gaussian")
+
+engpro_ols6 <- glm(log(m_engagement + 1) ~ 
+                       time + 
+                       ceasefire + 
+                       time_after +
+                       weekday +
+                       total_posts +
+                       active_users,
+                     data = subset(bluesky2, stance == "Pro"),
+                   family = "gaussian")
+```
+
+\vspace*{.5cm}
+
+\blandscape
+\vspace*{2cm}
+```{r}
+#| label: tbl-mainmodels
+#| tbl-cap: "Main Models"
+#| results: asis
+#| output: true
+#| include: true
+
+texreg(
+  list(npostspro_nb1, 
+       npostspro_nb2, 
+       npostspro_nb3, 
+       engpro_ols4,
+       engpro_ols5,
+       engpro_ols6),
+  custom.model.names = c("Posts",
+                         "Posts", 
+                         "Posts", 
+                         "log(Engagement)", 
+                         "log(Engagement)", 
+                         "log(Engagement)"),
+  custom.coef.map = list(
+    "time" = "Time",
+    "ceasefire" = "Ceasefire",
+    "time_after" = "After Ceasefire",
+    "weekday" = "Weekday",
+    "total_posts" = "Posts per Day",
+    "active_users" = "Daily Users",
+    "(Intercept)" = "Constant"
+  ),
+  custom.gof.rows = list(
+    "Estimator" = c(
+      "NegBin", "NegBin", "NegBin",
+      "OLS", "OLS", "OLS"
+      ),
+    "Weekday fixed effects" = c("No","Yes","Yes","No","Yes","Yes")
+    ),
+  digits = 2,
+  single.row = FALSE,
+  caption.above = TRUE,
+  table = FALSE
+)
+```
+\elandscape
+
+\vspace*{1cm}
+
+```{r}
+#| label: fig-meplot
+#| fig-cap: "Marginal effects of Ceasefire over Time"
+#| include: true
+
+me_theme <- theme_bw(base_size = 14) +
+  theme(
+    panel.grid.major = element_line(
+      linetype = "dashed",
+      color = "gray80",
+      linewidth = .2
+    ),
+    panel.grid.minor = element_blank(),
+    axis.text.x  = element_text(size = 8),
+    axis.text.y  = element_text(size = 8),
+    axis.title.x = element_text(size = 10, margin = margin(t = 15)),
+    axis.title.y = element_text(size = 10, margin = margin(r = 15)),
+    legend.title = element_text(size = 10),
+    legend.position = "bottom"
+  )
+
+# Model A: marginal effect of ceasefire across time
+marg_A <- plot_slopes(
+  npostspro_nb1,
+  variables = "ceasefire",
+  condition = "time",
+  conf_level = 0.95
+) +
+  geom_rug(
+    data = subset(bluesky2, stance == "Pro"),
+    mapping = aes(x = time),
+    sides = "b",
+    inherit.aes = FALSE,
+    colour = "black",
+    alpha = 0.6,
+    size = 0.3,
+    length = grid::unit(0.03, "npc")
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  me_theme +
+  labs(
+    x = "Time",
+    y = "Marginal effect of Ceasefire",
+    caption = "Model 1"
+  )
+
+# Model B: marginal effect of ceasefire across time
+marg_B <- plot_slopes(
+  npostspro_nb3,
+  variables = "ceasefire",
+  condition = "time",
+  conf_level = 0.95
+) +
+  geom_rug(
+    data = subset(bluesky2, stance == "Pro"),
+    mapping = aes(x = time),
+    sides = "b",
+    inherit.aes = FALSE,
+    colour = "black",
+    alpha = 0.6,
+    size = 0.3,
+    length = grid::unit(0.03, "npc")
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  me_theme +
+  labs(
+    x = "Time",
+    y = "Marginal effect of Ceasefire",
+    caption = "Model 3"
+  )
+
+marg_all <- ggarrange(
+  marg_A, marg_B,
+  ncol = 2, nrow = 1,
+  common.legend = TRUE,
+  legend = "bottom"
+)
+
+marg_all
+```
+
+
+\clearpage
+# Discussion and Conclusion
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+# Acknowledgements 
+We are grateful to XYZ for their support and helpful criticism.
+
+# Notes
+
+\begin{enumerate}
+ 
+  \item \label{note:data} Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+ 
+  \item \label{note:classifier} Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+
+\end{enumerate}
+
+
+\clearpage
+# References
+
+::: {#refs}
+:::
+
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\clearpage
+# Appendix A: Robustness Checks
+
+\FloatBarrier
+\vspace*{.1cm}
+
+```{r}
+# Models Poisson for first three model Robustness
+poissonpostspro_nb1 <- glm(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after,
+                      family = poisson(link = "log"),
+                      data = subset(bluesky2, stance == "Pro"))
+
+poissonpostspro_nb2 <- glm(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday,
+                     family = poisson(link = "log"),
+                     data = subset(bluesky2, stance == "Pro"))
+
+poissonpostspro_nb3 <- glm(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday + # total_posts removed because of collinearity,
+                          active_users,
+                     family = poisson(link = "log"),
+                     data = subset(bluesky2, stance == "Pro"))
+```
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-modelrobustness
+#| tbl-cap: "Ceasefire Robustness Models"
+#| results: asis
+#| output: true
+#| include: true
+
+texreg(
+  list(poissonpostspro_nb1, 
+       poissonpostspro_nb2, 
+       poissonpostspro_nb3),
+  custom.model.names = c("Posts",
+                         "Posts", 
+                         "Posts"
+                         ),
+  custom.coef.map = list(
+    "time" = "Time",
+    "ceasefire" = "Ceasefire",
+    "time_after" = "After Ceasefire",
+    "weekday" = "Weekday",
+#    "total_posts" = "Posts per Day", # not incuded in these models
+    "active_users" = "Daily Users",
+    "(Intercept)" = "Constant"
+  ),
+  custom.gof.rows = list(
+    "Estimator" = c(
+      "Poisson", "Poisson", "Poisson"
+      ), "Weekday fixed effects" = c("No","Yes","Yes")
+    ),
+  digits = 2,
+  single.row = FALSE,
+  caption.above = TRUE,
+  table = FALSE
+)
+```
+
+```{r}
+# NB on ceasfire breach for robustness
+
+breach <- as.Date("2025-10-19") # coding breach #https://www.theguardian.com/world/live/2025/oct/19/gaza-ceasefire-israel-hamas-rafah-hostages-middle-east-crisis-live-news-updates
+
+bluesky3 <- bluesky2 |>
+  filter(
+    day >= breach - 21,
+    day <= breach + 12
+  )
+
+bluesky4 <- bluesky3 |>
+  mutate(
+    breach = ifelse(day >= breach, 1, 0),
+    time_after_breach = ifelse(
+      day >= breach,
+      as.integer(day - breach) + 1,
+      0
+    )
+  )
+
+
+## NB Models
+breach_npostspro_nb1 <- glm.nb(n_daydate ~ 
+                          time + 
+                          breach + 
+                          time_after,
+                        data = subset(bluesky4, stance == "Pro"))
+
+breach_npostspro_nb2 <- glm.nb(n_daydate ~ 
+                          time + 
+                          breach + 
+                          time_after +
+                          weekday,
+                        data = subset(bluesky4, stance == "Pro"))
+
+breach_npostspro_nb3 <- glm.nb(n_daydate ~ 
+                          time + 
+                          breach + 
+                          time_after +
+                          weekday + # total_posts removed because of collinearity,
+                          active_users,
+                        data = subset(bluesky4, stance == "Pro"))
+```
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.[^guardian]
+
+[^guardian]: The Guardian (October 19, 2025). *Strikes hit Gaza after truce violations alleged*. Retrieved January 5, 2026, from https://www.theguardian.com/world/live/2025/oct/19/gaza-ceasefire-israel-hamas-rafah-hostages-middle-east-crisis-live-news-updates.
+
+\clearpage
+
+\vspace*{.25cm}
+
+```{r}
+#| label: tbl-breachmodels
+#| tbl-cap: "Ceasefire Breach Models"
+#| results: asis
+#| output: true
+#| include: true
+
+texreg(
+  list(breach_npostspro_nb1, 
+       breach_npostspro_nb2, 
+       breach_npostspro_nb3),
+  custom.model.names = c("Posts",
+                         "Posts", 
+                         "Posts"),
+  custom.coef.map = list(
+    "time" = "Time",
+    "breach" = "Ceasefire Breach",
+    "time_after" = "After Ceasefire Breach",
+    "weekday" = "Weekday",
+#    "total_posts" = "Posts per Day", # not incuded in these models
+    "active_users" = "Daily Users",
+    "(Intercept)" = "Constant"
+  ),
+  custom.gof.rows = list(
+    "Estimator" = c(
+      "NegBin", "NegBin", "NegBin"
+      ), "Weekday fixed effects" = c("No","Yes","Yes")
+    ),
+  digits = 2,
+  single.row = FALSE,
+  caption.above = TRUE,
+  table = FALSE
+)
+```
+
+```{r}
+# Models NB on reduced dataset for robustness
+
+bluesky_reduced <- bluesky |> 
+  filter(
+    !is.na(labels) |
+      prob_pro >= 0.9 |
+      prob_pro <= 0.1
+  )
+
+bluesky_reduced1 <- bluesky_reduced |>
+  mutate(
+    stance = ifelse(final_label == 1, "Pro", "Non-pro"),
+    day = as.Date(timestamp),
+    weekday = factor(wday(day, label = TRUE))
+  ) |>
+  group_by(day, stance, weekday) |>
+  summarise(
+    n_daydate = n(),
+    m_engagement = mean(reply_count + repost_count, na.rm = TRUE),
+    total_posts = n_distinct(post_id),
+    active_users = n_distinct(user_handle),
+    .groups = "drop"
+  )
+
+bluesky_reduced2 <- bluesky_reduced1 |>
+  mutate(
+    time = as.integer(day - min(day)) + 1,
+    ceasefire = ifelse(day >= as.Date("2025-09-29"), 1, 0),
+    time_after = ifelse(
+      day >= as.Date("2025-09-29"),
+      as.integer(day - as.Date("2025-09-29")) + 1,
+      0
+    )
+  )
+
+# Models NB reduced
+red_npostspro_nb1 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after,
+                        data = subset(bluesky_reduced2, stance == "Pro"))
+
+red_npostspro_nb2 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday,
+                        data = subset(bluesky_reduced2, stance == "Pro"))
+
+red_npostspro_nb3 <- glm.nb(n_daydate ~ 
+                          time + 
+                          ceasefire + 
+                          time_after +
+                          weekday + # total_posts removed because of collinearity,
+                          active_users,
+                        data = subset(bluesky_reduced2, stance == "Pro"))
+```
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-mainmodelsreduced
+#| tbl-cap: "Main Models on Reduced Dataset"
+#| results: asis
+#| output: true
+#| include: true
+
+texreg(
+  list(red_npostspro_nb1, 
+       red_npostspro_nb2, 
+       red_npostspro_nb3),
+  custom.model.names = c("Posts",
+                         "Posts", 
+                         "Posts"),
+  custom.coef.map = list(
+    "time" = "Time",
+    "ceasefire" = "Ceasefire",
+    "time_after" = "After Ceasefire",
+    "weekday" = "Weekday",
+#    "total_posts" = "Posts per Day", # not incuded in these models
+    "active_users" = "Daily Users",
+    "(Intercept)" = "Constant"
+  ),
+  custom.gof.rows = list(
+    "Estimator" = c(
+      "NegBin", "NegBin", "NegBin"
+      ), "Weekday fixed effects" = c("No","Yes","Yes")
+    ),
+  digits = 2,
+  single.row = FALSE,
+  caption.above = TRUE,
+  table = FALSE
+)
+```
+
+\clearpage
+# Appendix B: Descriptives
+
+@tbl-descriptives ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-descriptives
+#| tbl-cap: "Descriptive Statistics for Essential Variables"
+#| include: true
+
+bsky_desc <- bluesky |>
+  dplyr::select(
+    `Replies` = reply_count,
+    `Likes` = like_count,
+    `Reposts` = repost_count,
+    `Word count` = word_count,
+    `P(Pro)` = prob_pro,
+    `P(Non-Pro)` = prob_non_pro
+  ) |> 
+  dplyr::mutate(dplyr::across(where(is.numeric), ~ round(.x, 2)))
+
+desctable <- vtable::sumtable(
+  bsky_desc,
+  summ = c(
+    "notNA(x)", "mean(x)", "sd(x)", "min(x)",
+    "pctile(x)[25]", "pctile(x)[75]", "max(x)"
+  ),
+  summ.names = c("N", "Mean", "SD", "Min", "Pctl. 25", "Pctl. 75", "Max"),
+  fit.page = "\\textwidth",
+  out = "return"
+)
+
+desctable |>
+  kbl(booktabs = TRUE, format = "latex", 
+      align = c("l", "r", "r", "r", "r", "r", "r", "r"), escape = FALSE) |>
+  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  column_spec(1, width = "3cm") |>
+  column_spec(2, width = "1cm") |>
+  column_spec(3, width = "1cm") |> 
+  column_spec(4, width = "1cm") |> 
+  column_spec(5, width = "1cm") |> 
+  column_spec(6, width = "1.5cm") |> 
+  column_spec(7, width = "1.5cm") |> 
+  column_spec(8, width = "1cm") 
+```
+
+\clearpage
+# Appendix C: Codebook
+
+@tbl-codebook ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-codebook
+#| tbl-cap: "Coding Scheme"
+#| include: true
+
+keywords <- tibble(
+  "Label" = c(
+    
+    "pro", "anti", "neutral", "noclass"),
+  
+  "Definition" = c(
+    
+    "Post contains a boycott appeal. As such all posts expressing a pro-boycott stance are included, e.g., 
+    calls to action, promotion, support, or justification",
+  
+    "Explicit or implicit rejection of Israel boycotts, or BDS as a movement or tactic.",
+                   
+    "Discussion of Israel-related boycott activity which does not take a pro or anti-boycott
+    stance but simply discusses factual, non-opinionated information.",
+                   
+    "Posts that do not discuss the Israel-Palestine conflict as a topic, or they discuss the
+    Israel-Palestine conflict, but the posts does not relate to boycott activity."),
+                   
+  "Examples" = c(
+    
+    "“Don’t buy Israeli products.” 
+    
+    “BDS is a peaceful way to end apartheid.” 
+    
+    “BDS.” 
+    
+    “We must boycott until human rights are respected.”",
+  
+    "“BDS is antisemitic.”
+    
+    “The boycotts do more harm than good.”
+    
+    “Boycotts won’t bring peace.”
+    
+    “Israeli businesses provide jobs for both sides.”",
+    
+    "“Israel has lost [amount] of revenue due to boycotts.”
+    
+    “Calls for boycotts of Israel have increased/declined.”",
+    
+    "“Free Palestine.” 
+    
+    “Israel has a right to exist.”
+    
+    “Russia should be sanctioned, products boycotted.”"
+    )
+  )
+
+keywords <- keywords |>
+  mutate(Label = paste0("\\textit{", Label, "}"))
+
+keywords |>
+  kbl(booktabs = TRUE, format = "latex", align = "l", escape = FALSE) |>
+  row_spec(0, bold = TRUE) |>
+  row_spec(1:3, hline_after = TRUE) |>
+  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  column_spec(1, width = "1.5cm") |>
+  column_spec(2, width = "6.5cm") |>
+  column_spec(3, width = "6.5cm")
+```
+
+\clearpage
+# Appendix D: Intercoder Reliability
+
+@tbl-icr clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-icr
+#| tbl-cap: "Intercoder-Reliability Benchmarks"
+#| include: true
+
+icr <- readxl::read_excel("data/icr.xlsx")
+
+icr <- icr |> 
+  dplyr::select(Coders = n_Coders,
+         Level,
+         Agreement,
+         `Holstis CR` = Holstis_CR,
+         `Krippendorffs Alpha` = Krippendorffs_Alpha,
+         `Cohens Kappa` = Cohens_Kappa,
+         Lotus,
+         `S Lotus` = S_Lotus) |> 
+  dplyr::mutate(dplyr::across(where(is.numeric), ~ round(.x, 2)))
+
+icr |> 
+  kbl(booktabs = TRUE, format = "latex", align = c("r"), escape = FALSE) |>
+  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  column_spec(1, width = "1cm") |>
+  column_spec(2, width = "1.5cm") |>
+  column_spec(3, width = "1cm") |> 
+  column_spec(4, width = "2cm") |> 
+  column_spec(5, width = "3cm") |> 
+  column_spec(6, width = "2cm") |> 
+  column_spec(7, width = "1cm") |> 
+  column_spec(8, width = "1cm")
+
+```
+
+\clearpage
+# Appendix E: Classifier Performance
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet (@tbl-performance).
+
+\vspace*{.5cm}
+
+```{r}
+#| label: tbl-performance
+#| tbl-cap: "Comparison of Classifier Performance"
+#| include: true
+
+performance <- readr::read_csv("data/model_performance.csv")
+
+performance <- performance |> 
+  dplyr::mutate(dplyr::across(where(is.numeric), ~ round(.x, 2))) |> 
+  rename(Model = model, Accuracy = accuracy, `Macro F1` = macro_f1, `Evaluation Loss` = eval_loss) |> 
+  mutate(Model = if_else(Model == "BERT Validation & Early Stopping", "BERT Validation and Early Stopping", Model))
+
+performance |> 
+  kbl(booktabs = TRUE, format = "latex", align = c("l", "r", "r", "r"), escape = FALSE) |>
+  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  column_spec(1, width = "5cm") |>
+  column_spec(2, width = "2cm") |>
+  column_spec(3, width = "2cm") |> 
+  column_spec(4, width = "2cm")
+```
+
+\clearpage
+# Appendix F: Author Contributions and Use of AI
+
+## Author Contributions
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+## Use of AI
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\clearpage
+# Appendix G: Declaration of Authenticity
+
+For the Declaration of Authenticity from both writers, please see the seperate files cointained in the full replication archive.

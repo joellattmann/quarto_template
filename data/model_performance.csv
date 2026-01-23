@@ -1,0 +1,4 @@
+model,accuracy,macro_f1,eval_loss
+Logistic Regression,0.7475,0.7201731601731601,
+BERT Baseline,0.7925,0.7580157289776164,0.7681218981742859
+BERT Validation & Early Stopping,0.7225,0.6974961676034748,1.1548269987106323

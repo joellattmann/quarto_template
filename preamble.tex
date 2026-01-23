@@ -1,0 +1,26 @@
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{changepage}
+
+\justifying
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Paper Title}
+\fancyhead[R]{Surname 1 \& Surname 2}
+\renewcommand{\headrulewidth}{.4pt}
+\fancyfoot[C]{\thepage}
+
+\usepackage{footmisc}
+
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
+
+\renewcommand{\footnoterule}{
+  \vspace*{0.5cm}
+  \hrule width 0.5\textwidth height 0.4pt
+  \vspace*{0.3cm}
+}
+
+\setlength{\footnotemargin}{10pt}

@@ -1,0 +1,3 @@
+atprotopandasnltkscikit-learntransformersdatasetsevaluatetorchaccelerateopenpyxltqdm
+numpy
+torch
