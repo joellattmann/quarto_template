@@ -1,0 +1,13 @@
+# --- Python venv: ignore the .venv folder and everything in the directory ("/") ---
+.venv/
+
+# --- macOS ---
+.DS_Store
+
+# --- R ---
+.Rhistory
+.RData
+.Rproj.user/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
