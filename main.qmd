@@ -356,7 +356,7 @@ texreg(
 
 ```{r}
 #| label: fig-meplot
-#| fig-cap: "Marginal effects of Ceasefire over Time"
+#| fig-cap: "Marginal Effects of Ceasefire over Time"
 #| include: true
 
 me_theme <- theme_bw(base_size = 14) +
