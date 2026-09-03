@@ -1,4 +1,4 @@
-# Quarto seminar paper template: How to Use
+# Quarto seminar paper template: how to use
 
 This repository contains a Quarto template for seminar papers, mainly aimed at university students. It is inspired by, but not compliant with, the APA style guide. 
 
