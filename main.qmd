@@ -726,6 +726,11 @@ texreg(
 )
 ```
 
+\renewcommand{\thetable}{B\arabic{table}}
+\renewcommand{\thefigure}{B\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 \clearpage
 # Appendix B: Descriptives
 
@@ -773,6 +778,11 @@ desctable |>
   column_spec(7, width = "1.5cm") |> 
   column_spec(8, width = "1cm") 
 ```
+
+\renewcommand{\thetable}{C\arabic{table}}
+\renewcommand{\thefigure}{C\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
 
 \clearpage
 # Appendix C: Codebook
@@ -847,6 +857,11 @@ keywords |>
   column_spec(3, width = "6.5cm")
 ```
 
+\renewcommand{\thetable}{D\arabic{table}}
+\renewcommand{\thefigure}{D\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 \clearpage
 # Appendix D: Intercoder Reliability
 
@@ -886,6 +901,11 @@ icr |>
 
 ```
 
+\renewcommand{\thetable}{E\arabic{table}}
+\renewcommand{\thefigure}{E\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 \clearpage
 # Appendix E: Classifier Performance
 
@@ -914,6 +934,11 @@ performance |>
   column_spec(4, width = "2cm")
 ```
 
+\renewcommand{\thetable}{F\arabic{table}}
+\renewcommand{\thefigure}{F\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 \clearpage
 # Appendix F: Author Contributions and Use of AI
 
@@ -925,7 +950,12 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
+\renewcommand{\thetable}{G\arabic{table}}
+\renewcommand{\thefigure}{G\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 \clearpage
 # Appendix G: Declaration of Authenticity
 
-For the Declaration of Authenticity from both writers, please see the seperate files cointained in the full replication archive.
+For the Declaration of Authenticity from both writers, please see the separate files cointained in the full replication archive.
