@@ -29,7 +29,7 @@ format:
     mainfont: "CMU Serif"
     fontsize: 11pt
     fig-cap-location: bottom
-    tbl-cap-location: bottom
+    tbl-cap-location: top
     papersize: a4
     geometry: 
       - top=3cm
@@ -474,7 +474,7 @@ We are grateful to XYZ for their support and helpful criticism.
 \vspace*{.1cm}
 
 ```{r}
-# Models Poisson for first three model Robustness
+# Models Poisson for first three model robustness
 poissonpostspro_nb1 <- glm(n_daydate ~ 
                           time + 
                           ceasefire + 
