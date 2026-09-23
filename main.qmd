@@ -2,7 +2,7 @@
 title: |
   Paper Title Goes Here
 subtitle: |
-  Seminar paper\textsuperscript{*}
+  Subtitle\textsuperscript{*}
 author: 
   name: First Author\textsuperscript{†} & Second Author\textsuperscript{‡}
 
@@ -99,22 +99,31 @@ bluesky2 <- bluesky1 |>
 \vspace*{1cm}
 
 \begin{center}
+Word Count: X,XXX
+\end{center}
+
+\vspace*{1cm}
+
+\begin{center}
 \textbf{Abstract}
 \end{center}
 
 \begin{adjustwidth}{2cm}{2cm}
 Everyone agrees that this issue is really important. But we do not know much about this specific question, although it matters a great deal, for these reasons. We approach the problem from this perspective. Our research design focuses on these cases and relies on these data, which we analyze using this method. Results show what we have learned about the question. They have these broader implications.
+\noindent\textbf{h/t:} Prof. Fabrizio Gilardi
 \end{adjustwidth}
+
+
 
 \begingroup
 \renewcommand{\thefootnote}{}
 \setcounter{footnote}{0}
 
-\footnotetext{\textsuperscript{*} This paper was submitted for the BA Seminar "XYZ" taught by XYZ. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+\footnotetext{\textsuperscript{*} This paper was submitted for the BA/MA Seminar "XYZ" taught by XYZ. \\ Email: \href{mailto:xyz@xyz.ch}{\texttt{xyz@xyz.ch}}.}
 
-\footnotetext{\textsuperscript{†} Department of Political Science, University of Zurich, Switzerland. Matriculation Number: XX-XXX-XXX. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+\footnotetext{\textsuperscript{\dag} Center for Comparative and International Studies, ETH Zurich, Switzerland. Student ID: XX-XXX-XXX. \\ Email: \href{mailto:xyz@xyz.ch}{\texttt{xyz@xyz.ch}}.}
 
-\footnotetext{\textsuperscript{‡} Department of Political Science, University of Zurich, Switzerland. Matriculation Number: XX-XXX-XXX. Email: \href{mailto:xyz@xyz.ch}{xyz@xyz.ch}.}
+\footnotetext{\textsuperscript{\ddag} Department of Political Science, University of Zurich, Switzerland. Student ID: XX-XXX-XXX. \\ Email: \href{mailto:xyz@xyz.ch}{\texttt{xyz@xyz.ch}}.}
 \endgroup
 
 \thispagestyle{empty}
@@ -307,7 +316,7 @@ engpro_ols6 <- glm(log(m_engagement + 1) ~
 \vspace*{.5cm}
 
 \blandscape
-\vspace*{2cm}
+\vspace*{1cm}
 ```{r}
 #| label: tbl-mainmodels
 #| tbl-cap: "Main Models"
@@ -768,7 +777,7 @@ desctable <- vtable::sumtable(
 desctable |>
   kbl(booktabs = TRUE, format = "latex", 
       align = c("l", "r", "r", "r", "r", "r", "r", "r"), escape = FALSE) |>
-  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  kable_styling(latex_options = c("hold_position"), font_size = 10, full_width = FALSE) |>
   column_spec(1, width = "3cm") |>
   column_spec(2, width = "1cm") |>
   column_spec(3, width = "1cm") |> 
@@ -851,7 +860,7 @@ keywords |>
   kbl(booktabs = TRUE, format = "latex", align = "l", escape = FALSE) |>
   row_spec(0, bold = TRUE) |>
   row_spec(1:3, hline_after = TRUE) |>
-  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  kable_styling(latex_options = c("hold_position"), font_size = 10, full_width = FALSE) |>
   column_spec(1, width = "1.5cm") |>
   column_spec(2, width = "6.5cm") |>
   column_spec(3, width = "6.5cm")
@@ -889,11 +898,11 @@ icr <- icr |>
 
 icr |> 
   kbl(booktabs = TRUE, format = "latex", align = c("r"), escape = FALSE) |>
-  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
+  kable_styling(latex_options = c("hold_position"), font_size = 8, full_width = FALSE) |>
   column_spec(1, width = "1cm") |>
-  column_spec(2, width = "1.5cm") |>
-  column_spec(3, width = "1cm") |> 
-  column_spec(4, width = "2cm") |> 
+  column_spec(2, width = "1cm") |>
+  column_spec(3, width = "2cm") |> 
+  column_spec(4, width = "1.5cm") |> 
   column_spec(5, width = "3cm") |> 
   column_spec(6, width = "2cm") |> 
   column_spec(7, width = "1cm") |> 
@@ -927,11 +936,11 @@ performance <- performance |>
 
 performance |> 
   kbl(booktabs = TRUE, format = "latex", align = c("l", "r", "r", "r"), escape = FALSE) |>
-  kable_styling(latex_options = c("HOLD_position"), font_size = 8, full_width = TRUE) |>
-  column_spec(1, width = "5cm") |>
+  kable_styling(latex_options = c("HOLD_position"), font_size = 10, full_width = FALSE) |>
+  column_spec(1, width = "6cm") |>
   column_spec(2, width = "2cm") |>
   column_spec(3, width = "2cm") |> 
-  column_spec(4, width = "2cm")
+  column_spec(4, width = "4cm")
 ```
 
 \renewcommand{\thetable}{F\arabic{table}}
