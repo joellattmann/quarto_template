@@ -6,7 +6,7 @@ subtitle: |
 author: 
   name: First Author\textsuperscript{†} & Second Author\textsuperscript{‡}
 
-lang: en
+lang: en-GB
 date: today
 date-format: "D MMMM YYYY"
 editor: source
