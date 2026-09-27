@@ -900,7 +900,7 @@ icr |>
   kbl(booktabs = TRUE, format = "latex", align = c("r"), escape = FALSE) |>
   kable_styling(latex_options = c("hold_position"), font_size = 8, full_width = FALSE) |>
   column_spec(1, width = "1cm") |>
-  column_spec(2, width = "1cm") |>
+  column_spec(2, width = "1.2cm") |>
   column_spec(3, width = "2cm") |> 
   column_spec(4, width = "1.5cm") |> 
   column_spec(5, width = "3cm") |> 
