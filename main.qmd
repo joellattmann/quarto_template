@@ -936,7 +936,7 @@ performance <- performance |>
 
 performance |> 
   kbl(booktabs = TRUE, format = "latex", align = c("l", "r", "r", "r"), escape = FALSE) |>
-  kable_styling(latex_options = c("HOLD_position"), font_size = 10, full_width = FALSE) |>
+  kable_styling(latex_options = c("hold_position"), font_size = 10, full_width = FALSE) |>
   column_spec(1, width = "6cm") |>
   column_spec(2, width = "2cm") |>
   column_spec(3, width = "2cm") |> 
