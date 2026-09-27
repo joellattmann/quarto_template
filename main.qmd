@@ -22,11 +22,11 @@ number-sections: false
 format:
   pdf:
     documentclass: article
-    latex-engine: xelatex
+    latex-engine: pdflatex
     include-in-header: preamble.tex
     colorlinks: false
     link-citations: true
-    mainfont: "CMU Serif"
+    #mainfont: "CMU Serif"
     fontsize: 11pt
     fig-cap-location: bottom
     tbl-cap-location: top
